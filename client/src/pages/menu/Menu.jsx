@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import "./Menu.css";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const days = [
   "monday",
   "tuesday",
@@ -144,7 +147,7 @@ function Menu() {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/menu",
+        `${API_URL}/menu`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -241,7 +244,7 @@ function Menu() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/menu/weekly",
+        `${API_URL}/menu/weekly`,
         {
           method: "PUT",
           headers: {
@@ -259,7 +262,7 @@ function Menu() {
       if (!response.ok) {
         throw new Error(
           data.message ||
-            "Failed to update weekly routine"
+          "Failed to update weekly routine"
         );
       }
 
@@ -285,7 +288,7 @@ function Menu() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/menu/daily",
+        `${API_URL}/menu/daily`,
         {
           method: "PUT",
           headers: {
@@ -306,7 +309,7 @@ function Menu() {
       if (!response.ok) {
         throw new Error(
           data.message ||
-            "Failed to update daily menu"
+          "Failed to update daily menu"
         );
       }
 
@@ -332,7 +335,7 @@ function Menu() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/menu/daily/${selectedDate}`,
+        `${API_URL}/menu/daily/${selectedDate}`,
         {
           method: "DELETE",
           headers: {
@@ -346,7 +349,7 @@ function Menu() {
       if (!response.ok) {
         throw new Error(
           data.message ||
-            "Failed to remove daily override"
+          "Failed to remove daily override"
         );
       }
 

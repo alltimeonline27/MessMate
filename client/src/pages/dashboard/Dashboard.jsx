@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import "./Dashboard.css";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 function Dashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,14 +25,13 @@ function Dashboard() {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/dashboard",
+          `${API_URL}/dashboard`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-
         const data = await response.json();
 
         if (!response.ok) {

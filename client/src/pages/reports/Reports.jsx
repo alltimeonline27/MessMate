@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./Reports.css";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 function Reports() {
   const getDefaultStartDate = () => {
     const date = new Date();
@@ -51,7 +54,7 @@ function Reports() {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/reports/monthly?startDate=${startDate}&endDate=${endDate}`,
+        `${API_URL}/reports/monthly?startDate=${startDate}&endDate=${endDate}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -396,7 +399,7 @@ function Reports() {
               </div>
 
               {Object.keys(report.categoryTotals).length ===
-              0 ? (
+                0 ? (
                 <div className="reports-empty-card">
                   <div className="reports-empty-icon">
                     ₹

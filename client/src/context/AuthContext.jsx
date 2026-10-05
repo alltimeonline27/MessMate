@@ -62,13 +62,14 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      const response = await fetch(
-        "http://localhost:5000/api/profile/me",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const API_URL =
+        import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
+      const response = await fetch(`${API_URL}/profile/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
       );
 
       const data = await response.json();
