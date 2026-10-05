@@ -1,0 +1,1450 @@
+/* =========================================
+   MEAL HISTORY
+   ========================================= */
+
+.meal-history-page {
+  width: 100%;
+  min-height: 100%;
+  animation: mealHistoryPageIn 0.45s ease both;
+}
+
+.meal-history-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.meal-history-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 25px;
+
+  animation: mealHistoryFadeUp 0.55s 0.04s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.meal-history-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #7552ee;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.meal-history-heading h1 {
+  margin: 0;
+
+  color: #182038;
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.meal-history-heading p {
+  margin: 9px 0 0;
+
+  color: #7d879f;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   HEADER BADGES
+   ========================================= */
+
+.meal-history-month-badge,
+.meal-history-admin-badge {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  min-width: 175px;
+  padding: 12px 15px;
+
+  border: 1px solid rgba(119, 83, 238, 0.13);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  box-shadow:
+    0 7px 22px rgba(82, 62, 135, 0.055);
+}
+
+.meal-history-month-badge svg,
+.meal-history-admin-badge svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+
+  padding: 9px;
+  box-sizing: content-box;
+
+  border-radius: 11px;
+
+  background: #eee8ff;
+  color: #7048ed;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-month-badge span,
+.meal-history-admin-badge span {
+  display: block;
+  margin-bottom: 2px;
+
+  color: #9299ab;
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.meal-history-month-badge strong,
+.meal-history-admin-badge strong {
+  display: block;
+
+  color: #30394f;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   TOAST
+   ========================================= */
+
+.meal-history-toast-container {
+  position: fixed;
+  top: 92px;
+  right: 24px;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: min(370px, calc(100vw - 30px));
+
+  pointer-events: none;
+}
+
+.meal-history-toast {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 13px 14px;
+
+  border: 1px solid transparent;
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 15px 35px rgba(48, 39, 78, 0.14);
+
+  pointer-events: auto;
+
+  animation: mealHistoryToastIn 0.42s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.meal-history-toast-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+}
+
+.meal-history-toast-icon svg {
+  width: 17px;
+  height: 17px;
+
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-toast-success {
+  border-color: rgba(19, 174, 114, 0.16);
+}
+
+.meal-history-toast-success
+  .meal-history-toast-icon {
+  background: #eaf9f2;
+  color: #109868;
+}
+
+.meal-history-toast-error {
+  border-color: rgba(214, 83, 97, 0.16);
+}
+
+.meal-history-toast-error
+  .meal-history-toast-icon {
+  background: #fff0f1;
+  color: #d65361;
+
+  font-weight: 800;
+}
+
+.meal-history-toast > div:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+
+.meal-history-toast strong,
+.meal-history-toast span {
+  display: block;
+}
+
+.meal-history-toast strong {
+  margin-bottom: 2px;
+
+  color: #30394f;
+  font-size: 12px;
+}
+
+.meal-history-toast span {
+  overflow: hidden;
+
+  color: #858da2;
+  font-size: 11px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meal-history-toast button {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #9299ab;
+
+  font-size: 18px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.meal-history-toast button:hover {
+  background: #f2eff9;
+  color: #4b5265;
+}
+
+
+/* =========================================
+   SUMMARY CARDS
+   ========================================= */
+
+.meal-history-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+
+  margin-bottom: 20px;
+}
+
+.meal-history-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  min-height: 90px;
+  padding: 18px 20px;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(119, 83, 238, 0.1);
+  border-radius: 17px;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  box-shadow:
+    0 7px 25px rgba(82, 62, 135, 0.055);
+
+  animation: mealHistoryCardIn 0.55s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.meal-history-summary-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.meal-history-summary-card:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.meal-history-summary-card:nth-child(3) {
+  animation-delay: 0.22s;
+}
+
+.meal-history-summary-card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(119, 83, 238, 0.18);
+
+  box-shadow:
+    0 13px 32px rgba(82, 62, 135, 0.085);
+}
+
+.meal-history-summary-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background: #eee8ff;
+  color: #7048ed;
+
+  transition:
+    transform 0.25s ease;
+}
+
+.meal-history-summary-card:hover
+  .meal-history-summary-icon {
+  transform: scale(1.06) rotate(-2deg);
+}
+
+.meal-history-summary-icon svg {
+  width: 22px;
+  height: 22px;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-summary-card span {
+  display: block;
+  margin-bottom: 4px;
+
+  color: #9299ab;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.meal-history-summary-card strong {
+  display: block;
+
+  color: #20283f;
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   COMMON CARD
+   ========================================= */
+
+.meal-history-filter-card,
+.meal-history-admin-card,
+.meal-history-table-card {
+  padding: 24px;
+
+  border: 1px solid rgba(119, 83, 238, 0.11);
+  border-radius: 19px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 8px 30px rgba(82, 62, 135, 0.06);
+}
+
+.meal-history-filter-card {
+  margin-bottom: 20px;
+
+  animation: mealHistoryFadeUp 0.55s 0.16s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.meal-history-admin-card,
+.meal-history-table-card {
+  animation: mealHistoryFadeUp 0.55s 0.24s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.meal-history-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+.meal-history-card-label {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #7552ee;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.meal-history-section-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0;
+
+  color: #20283f;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.meal-history-section-header p {
+  margin: 6px 0 0;
+
+  color: #858da2;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.meal-history-section-icon {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: #f0eaff;
+  color: #7048ed;
+}
+
+.meal-history-section-icon svg {
+  width: 21px;
+  height: 21px;
+
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================
+   FILTER
+   ========================================= */
+
+.meal-history-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.meal-history-field label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #555f75;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.meal-history-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 44px;
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e7e2f0;
+  border-radius: 11px;
+
+  background: #fcfbff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.meal-history-input-wrap:focus-within {
+  border-color: #8060ee;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(112, 72, 237, 0.09);
+}
+
+.meal-history-input-wrap svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  color: #7650f2;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-input-wrap input,
+.meal-history-input-wrap select {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #30394f;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.meal-history-input-wrap select {
+  cursor: pointer;
+}
+
+
+/* =========================================
+   COUNT BADGE
+   ========================================= */
+
+.meal-history-count {
+  min-width: 27px;
+  height: 27px;
+
+  display: inline-grid;
+  place-items: center;
+
+  padding: 0 7px;
+  box-sizing: border-box;
+
+  border-radius: 8px;
+
+  background: #eee8ff;
+  color: #7048ed;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   ADMIN TABLE
+   ========================================= */
+
+.meal-history-admin-table-wrapper,
+.meal-history-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  border: 1px solid #eeeaf5;
+  border-radius: 14px;
+}
+
+.meal-history-admin-table,
+.meal-history-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 720px;
+}
+
+.meal-history-admin-table th,
+.meal-history-table th {
+  padding: 13px 15px;
+
+  background: #faf8ff;
+
+  color: #858da2;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.meal-history-admin-table td,
+.meal-history-table td {
+  padding: 14px 15px;
+
+  border-top: 1px solid #f0edf5;
+
+  color: #40485b;
+
+  font-size: 11px;
+}
+
+.meal-history-admin-table tbody tr,
+.meal-history-table tbody tr {
+  transition:
+    background 0.2s ease;
+}
+
+.meal-history-admin-table tbody tr:hover,
+.meal-history-table tbody tr:hover {
+  background: #fcfaff;
+}
+
+
+/* =========================================
+   MEMBER CELL
+   ========================================= */
+
+.meal-history-member-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.meal-history-member-avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: linear-gradient(
+    135deg,
+    #7048ed,
+    #8a69f2
+  );
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  box-shadow:
+    0 6px 14px rgba(112, 72, 237, 0.15);
+}
+
+.meal-history-member-cell strong,
+.meal-history-member-cell span {
+  display: block;
+}
+
+.meal-history-member-cell strong {
+  margin-bottom: 2px;
+
+  color: #30394f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.meal-history-member-cell span {
+  color: #969db0;
+  font-size: 9px;
+}
+
+.meal-history-room {
+  color: #555e73;
+  font-weight: 750;
+}
+
+
+/* =========================================
+   POLL BADGES
+   ========================================= */
+
+.meal-history-poll-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 58px;
+  padding: 6px 9px;
+
+  border-radius: 8px;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.poll-yes {
+  background: #eaf9f2;
+  color: #109868;
+}
+
+.poll-no {
+  background: #fff0f1;
+  color: #d35b67;
+}
+
+.poll-none {
+  background: #f0eff4;
+  color: #858b99;
+}
+
+
+/* =========================================
+   ACTUAL MEAL CHOICE
+   ========================================= */
+
+.meal-history-choice-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.meal-history-choice {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  min-width: 61px;
+  min-height: 32px;
+  padding: 0 9px;
+
+  box-sizing: border-box;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.meal-history-choice:hover {
+  transform: translateY(-1px);
+}
+
+.meal-history-choice input {
+  position: absolute;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.meal-history-choice-icon svg {
+  width: 13px;
+  height: 13px;
+
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.choice-yes {
+  border-color: #cfeee0;
+
+  background: #f0faf5;
+  color: #109868;
+}
+
+.choice-yes.selected {
+  border-color: #16a873;
+
+  background: #16a873;
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 13px rgba(22, 168, 115, 0.18);
+}
+
+.choice-no {
+  border-color: #f0d9dc;
+
+  background: #fff5f6;
+  color: #d35b67;
+}
+
+.choice-no.selected {
+  border-color: #d35b67;
+
+  background: #d35b67;
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 13px rgba(211, 91, 103, 0.16);
+}
+
+
+/* =========================================
+   ADMIN SUMMARY
+   ========================================= */
+
+.meal-history-admin-summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 9px 12px;
+
+  border: 1px solid #eee8ff;
+  border-radius: 11px;
+
+  background: #faf8ff;
+}
+
+.meal-history-admin-summary svg {
+  width: 17px;
+  height: 17px;
+
+  color: #7650f2;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-admin-summary span,
+.meal-history-admin-summary strong {
+  display: block;
+}
+
+.meal-history-admin-summary span {
+  margin-bottom: 2px;
+
+  color: #9299ab;
+  font-size: 8px;
+}
+
+.meal-history-admin-summary strong {
+  color: #30394f;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   SUBMIT AREA
+   ========================================= */
+
+.meal-history-submit-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-top: 18px;
+  padding: 15px 16px;
+
+  border: 1px solid #e9e3fb;
+  border-radius: 13px;
+
+  background: #faf8ff;
+}
+
+.meal-history-submit-area span {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #4a5368;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.meal-history-submit-area p {
+  margin: 0;
+
+  color: #9299ab;
+  font-size: 9px;
+}
+
+.meal-history-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 41px;
+  padding: 0 16px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #7048ed,
+    #8059ee
+  );
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 18px rgba(112, 72, 237, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.meal-history-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 11px 23px rgba(112, 72, 237, 0.25);
+}
+
+.meal-history-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.meal-history-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.meal-history-submit-btn svg {
+  width: 15px;
+  height: 15px;
+
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================
+   MEMBER HISTORY TABLE
+   ========================================= */
+
+.meal-history-table-card {
+  animation-delay: 0.18s;
+}
+
+.meal-history-table {
+  min-width: 600px;
+}
+
+.meal-history-date-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meal-history-date-cell svg {
+  width: 16px;
+  height: 16px;
+
+  color: #7650f2;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-date-cell strong {
+  color: #40485b;
+  font-size: 10px;
+}
+
+.meal-history-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 30px;
+  min-height: 27px;
+
+  padding: 0 8px;
+
+  border-radius: 8px;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.meal-history-number-lunch {
+  background: #eee8ff;
+  color: #7048ed;
+}
+
+.meal-history-number-dinner {
+  background: #f2edff;
+  color: #815ee9;
+}
+
+.meal-history-total {
+  color: #30394f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+
+.meal-history-empty {
+  padding: 45px 25px;
+
+  text-align: center;
+}
+
+.meal-history-empty-icon {
+  width: 54px;
+  height: 54px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 0 auto 13px;
+
+  border-radius: 15px;
+
+  background: #f0eaff;
+  color: #7650f2;
+}
+
+.meal-history-empty-icon svg {
+  width: 24px;
+  height: 24px;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meal-history-empty h3 {
+  margin: 0 0 5px;
+
+  color: #30394f;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.meal-history-empty p {
+  max-width: 390px;
+  margin: 0 auto;
+
+  color: #9299ab;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+
+@keyframes mealHistoryPageIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mealHistoryFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mealHistoryCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mealHistoryToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+
+/* =========================================
+   DARK MODE
+   ========================================= */
+
+.dark .meal-history-heading h1,
+[data-theme="dark"] .meal-history-heading h1,
+.dark .meal-history-section-header h2,
+[data-theme="dark"] .meal-history-section-header h2,
+.dark .meal-history-summary-card strong,
+[data-theme="dark"] .meal-history-summary-card strong,
+.dark .meal-history-member-cell strong,
+[data-theme="dark"] .meal-history-member-cell strong,
+.dark .meal-history-room,
+[data-theme="dark"] .meal-history-room,
+.dark .meal-history-date-cell strong,
+[data-theme="dark"] .meal-history-date-cell strong,
+.dark .meal-history-total,
+[data-theme="dark"] .meal-history-total,
+.dark .meal-history-admin-summary strong,
+[data-theme="dark"] .meal-history-admin-summary strong,
+.dark .meal-history-submit-area span,
+[data-theme="dark"] .meal-history-submit-area span,
+.dark .meal-history-empty h3,
+[data-theme="dark"] .meal-history-empty h3 {
+  color: #eeeaff;
+}
+
+.dark .meal-history-heading p,
+[data-theme="dark"] .meal-history-heading p,
+.dark .meal-history-section-header p,
+[data-theme="dark"] .meal-history-section-header p,
+.dark .meal-history-summary-card span,
+[data-theme="dark"] .meal-history-summary-card span,
+.dark .meal-history-member-cell span,
+[data-theme="dark"] .meal-history-member-cell span,
+.dark .meal-history-admin-summary span,
+[data-theme="dark"] .meal-history-admin-summary span,
+.dark .meal-history-submit-area p,
+[data-theme="dark"] .meal-history-submit-area p,
+.dark .meal-history-empty p,
+[data-theme="dark"] .meal-history-empty p {
+  color: #9994ac;
+}
+
+.dark .meal-history-month-badge,
+.dark .meal-history-admin-badge,
+.dark .meal-history-summary-card,
+.dark .meal-history-filter-card,
+.dark .meal-history-admin-card,
+.dark .meal-history-table-card,
+[data-theme="dark"] .meal-history-month-badge,
+[data-theme="dark"] .meal-history-admin-badge,
+[data-theme="dark"] .meal-history-summary-card,
+[data-theme="dark"] .meal-history-filter-card,
+[data-theme="dark"] .meal-history-admin-card,
+[data-theme="dark"] .meal-history-table-card {
+  border-color: rgba(180, 157, 255, 0.12);
+
+  background: #1d1a2a;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.dark .meal-history-summary-card:hover,
+[data-theme="dark"] .meal-history-summary-card:hover {
+  border-color: rgba(180, 157, 255, 0.22);
+}
+
+.dark .meal-history-month-badge strong,
+.dark .meal-history-admin-badge strong,
+[data-theme="dark"] .meal-history-month-badge strong,
+[data-theme="dark"] .meal-history-admin-badge strong {
+  color: #eeeaff;
+}
+
+.dark .meal-history-section-icon,
+.dark .meal-history-summary-icon,
+[data-theme="dark"] .meal-history-section-icon,
+[data-theme="dark"] .meal-history-summary-icon {
+  background: rgba(117, 82, 238, 0.15);
+  color: #a68aff;
+}
+
+.dark .meal-history-input-wrap,
+[data-theme="dark"] .meal-history-input-wrap {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: #211e2e;
+}
+
+.dark .meal-history-input-wrap:focus-within,
+[data-theme="dark"] .meal-history-input-wrap:focus-within {
+  border-color: #8060ee;
+  background: #252132;
+}
+
+.dark .meal-history-input-wrap input,
+.dark .meal-history-input-wrap select,
+[data-theme="dark"] .meal-history-input-wrap input,
+[data-theme="dark"] .meal-history-input-wrap select {
+  color: #eeeaff;
+}
+
+.dark .meal-history-field label,
+[data-theme="dark"] .meal-history-field label {
+  color: #aaa4bd;
+}
+
+.dark .meal-history-admin-table-wrapper,
+.dark .meal-history-table-wrapper,
+[data-theme="dark"] .meal-history-admin-table-wrapper,
+[data-theme="dark"] .meal-history-table-wrapper {
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+.dark .meal-history-admin-table th,
+.dark .meal-history-table th,
+[data-theme="dark"] .meal-history-admin-table th,
+[data-theme="dark"] .meal-history-table th {
+  background: #211e2e;
+  color: #9994ac;
+}
+
+.dark .meal-history-admin-table td,
+.dark .meal-history-table td,
+[data-theme="dark"] .meal-history-admin-table td,
+[data-theme="dark"] .meal-history-table td {
+  border-color: rgba(255, 255, 255, 0.07);
+  color: #aaa4bd;
+}
+
+.dark .meal-history-admin-table tbody tr:hover,
+.dark .meal-history-table tbody tr:hover,
+[data-theme="dark"] .meal-history-admin-table tbody tr:hover,
+[data-theme="dark"] .meal-history-table tbody tr:hover {
+  background: #211e2e;
+}
+
+.dark .meal-history-admin-summary,
+.dark .meal-history-submit-area,
+[data-theme="dark"] .meal-history-admin-summary,
+[data-theme="dark"] .meal-history-submit-area {
+  border-color: rgba(180, 157, 255, 0.1);
+  background: #211e2e;
+}
+
+.dark .meal-history-admin-summary span,
+.dark .meal-history-submit-area p,
+[data-theme="dark"] .meal-history-admin-summary span,
+[data-theme="dark"] .meal-history-submit-area p {
+  color: #9994ac;
+}
+
+.dark .meal-history-count,
+[data-theme="dark"] .meal-history-count {
+  background: rgba(117, 82, 238, 0.15);
+  color: #a68aff;
+}
+
+.dark .meal-history-toast,
+[data-theme="dark"] .meal-history-toast {
+  border-color: rgba(180, 157, 255, 0.12);
+  background: #211e2e;
+}
+
+.dark .meal-history-toast strong,
+[data-theme="dark"] .meal-history-toast strong,
+[data-theme="dark"] .meal-history-toast span,
+.dark .meal-history-toast span {
+  color: #eeeaff;
+}
+
+.dark .meal-history-toast span,
+[data-theme="dark"] .meal-history-toast span {
+  color: #9994ac;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 950px) {
+  .meal-history-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .meal-history-summary-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 780px) {
+  .meal-history-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .meal-history-month-badge,
+  .meal-history-admin-badge {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .meal-history-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-history-submit-area {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .meal-history-submit-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .meal-history-container {
+    width: 100%;
+  }
+
+  .meal-history-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-history-summary-card:last-child {
+    grid-column: auto;
+  }
+
+  .meal-history-filter-card,
+  .meal-history-admin-card,
+  .meal-history-table-card {
+    padding: 19px;
+    border-radius: 17px;
+  }
+
+  .meal-history-section-header {
+    gap: 13px;
+  }
+
+  .meal-history-section-header h2 {
+    font-size: 17px;
+  }
+
+  .meal-history-toast-container {
+    top: 78px;
+    right: 15px;
+    width: calc(100vw - 30px);
+  }
+
+  .meal-history-admin-table-wrapper,
+  .meal-history-table-wrapper {
+    margin: 0 -2px;
+  }
+}
+
+@media (max-width: 430px) {
+  .meal-history-heading h1 {
+    font-size: 32px;
+  }
+
+  .meal-history-heading p {
+    font-size: 13px;
+  }
+
+  .meal-history-summary-card {
+    min-height: 82px;
+  }
+
+  .meal-history-summary-card strong {
+    font-size: 24px;
+  }
+
+  .meal-history-section-icon {
+    width: 39px;
+    height: 39px;
+    flex-basis: 39px;
+  }
+
+  .meal-history-admin-summary {
+    display: none;
+  }
+}
+
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .meal-history-page,
+  .meal-history-heading,
+  .meal-history-summary-card,
+  .meal-history-filter-card,
+  .meal-history-admin-card,
+  .meal-history-table-card,
+  .meal-history-toast {
+    animation: none !important;
+  }
+
+  .meal-history-summary-card,
+  .meal-history-summary-icon,
+  .meal-history-choice,
+  .meal-history-submit-btn {
+    transition: none !important;
+  }
+}

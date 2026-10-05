@@ -1,0 +1,1376 @@
+/* =========================================
+   BAZAR SCHEDULE PAGE
+   ========================================= */
+
+.bazar-schedule-page {
+  min-height: 100%;
+  padding: 34px 0 60px;
+  animation: bazarPageIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-schedule-container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.bazar-schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 30px;
+  animation: bazarFadeUp 0.55s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-schedule-heading {
+  min-width: 0;
+}
+
+.bazar-eyebrow,
+.bazar-card-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #7450f5;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bazar-schedule-heading h1 {
+  margin: 0;
+  color: #18213d;
+  font-size: clamp(38px, 4vw, 54px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.bazar-schedule-heading p {
+  margin: 10px 0 0;
+  color: #7d87a3;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.bazar-generate-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7147ef, #825cf6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(113, 71, 239, 0.24);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.bazar-generate-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 17px 34px rgba(113, 71, 239, 0.3);
+}
+
+.bazar-generate-button:active {
+  transform: translateY(-1px);
+}
+
+.bazar-generate-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.bazar-button-icon {
+  font-size: 19px;
+  line-height: 1;
+}
+
+/* =========================================
+   TOAST
+   ========================================= */
+
+.bazar-toast-container {
+  position: fixed;
+  top: 98px;
+  right: 28px;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(390px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.bazar-toast {
+  display: grid;
+  grid-template-columns: 38px 1fr 26px;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px;
+  border: 1px solid rgba(120, 85, 240, 0.16);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 45px rgba(58, 39, 110, 0.16);
+  backdrop-filter: blur(16px);
+  pointer-events: auto;
+  animation: bazarToastIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-toast-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+.bazar-toast-success .bazar-toast-icon {
+  background: #e6f9f0;
+  color: #08a66a;
+}
+
+.bazar-toast-error .bazar-toast-icon {
+  background: #fff0f1;
+  color: #e54856;
+}
+
+.bazar-toast > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bazar-toast strong {
+  color: #202944;
+  font-size: 13px;
+}
+
+.bazar-toast span:not(.bazar-toast-icon) {
+  color: #7d87a3;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.bazar-toast button {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #8d95aa;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.bazar-toast button:hover {
+  background: #f1edff;
+  color: #6d4ce9;
+}
+
+/* =========================================
+   MONTH NAVIGATION
+   ========================================= */
+
+.bazar-month-navigation {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  animation: bazarFadeUp 0.55s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-month-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(117, 79, 235, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #59627e;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+.bazar-month-button:last-child {
+  justify-self: end;
+}
+
+.bazar-month-button:hover {
+  transform: translateY(-2px);
+  background: #fff;
+  border-color: #a48af8;
+  color: #7147ef;
+}
+
+.bazar-month-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 220px;
+}
+
+.bazar-calendar-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: #eee9ff;
+  color: #724cf0;
+  font-size: 17px;
+  box-shadow: inset 0 0 0 1px rgba(117, 79, 235, 0.08);
+}
+
+.bazar-month-center > div {
+  text-align: left;
+}
+
+.bazar-month-center span {
+  display: block;
+  color: #8a92aa;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.bazar-month-center h2 {
+  margin: 2px 0 0;
+  color: #1d2642;
+  font-size: 23px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* =========================================
+   MAIN TABLE CARD
+   ========================================= */
+
+.bazar-schedule-card {
+  overflow: hidden;
+  border: 1px solid rgba(116, 80, 245, 0.13);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 50px rgba(84, 61, 151, 0.08);
+  animation: bazarCardIn 0.62s 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 26px 22px;
+}
+
+.bazar-card-header h2 {
+  margin: 0;
+  color: #202943;
+  font-size: 23px;
+  letter-spacing: -0.025em;
+}
+
+.bazar-card-header p {
+  margin: 6px 0 0;
+  color: #8991aa;
+  font-size: 13px;
+}
+
+.bazar-card-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid #e6e0ff;
+  border-radius: 12px;
+  background: #f8f6ff;
+}
+
+.bazar-card-count strong {
+  color: #7047ef;
+  font-size: 18px;
+}
+
+.bazar-card-count span {
+  color: #8b93aa;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================================
+   TABLE
+   ========================================= */
+
+.bazar-table-wrapper {
+  overflow-x: auto;
+  padding: 0 18px 20px;
+}
+
+.bazar-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.bazar-table th {
+  padding: 13px 16px;
+  border-top: 1px solid #eeeafa;
+  border-bottom: 1px solid #e8e4f4;
+  background: #f8f7fc;
+  color: #858da6;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.bazar-table th:first-child {
+  border-left: 1px solid #eeeafa;
+  border-radius: 12px 0 0 0;
+}
+
+.bazar-table th:last-child {
+  border-right: 1px solid #eeeafa;
+  border-radius: 0 12px 0 0;
+}
+
+.bazar-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eeeaf5;
+  color: #37415d;
+  font-size: 13px;
+  vertical-align: middle;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.bazar-table tbody tr {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.bazar-table tbody tr:hover {
+  background: #faf9ff;
+}
+
+.bazar-table tbody tr:hover td {
+  border-bottom-color: #e2dcfb;
+}
+
+.bazar-row.assigned {
+  background: rgba(248, 247, 255, 0.52);
+}
+
+.bazar-date-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.bazar-date-number {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #f0ebff;
+  color: #7048ee;
+  font-size: 13px;
+}
+
+.bazar-day {
+  color: #68718b;
+  font-weight: 600;
+}
+
+.bazar-duty-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  flex-wrap: wrap;
+}
+
+.bazar-member-list {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.bazar-member-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid #dfd6ff;
+  border-radius: 10px;
+  background: #f6f2ff;
+  color: #5f46ae;
+  font-size: 12px;
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.bazar-member-badge:hover {
+  transform: translateY(-2px);
+  border-color: #bca9ff;
+  background: #efeaff;
+}
+
+.badge-avatar {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7047ee, #8c69f7);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.bazar-not-assigned {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #a0a6b6;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bazar-not-assigned span {
+  color: #c1c5d0;
+  font-size: 17px;
+}
+
+.bazar-edit-button,
+.bazar-assign-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 0 11px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bazar-edit-button {
+  border: 1px solid #ddd4ff;
+  background: #f7f4ff;
+  color: #7048ed;
+}
+
+.bazar-assign-button {
+  border: 1px solid #cbbdff;
+  background: #fff;
+  color: #7048ed;
+}
+
+.bazar-edit-button:hover,
+.bazar-assign-button:hover {
+  transform: translateY(-2px);
+  background: #eee9ff;
+  box-shadow: 0 7px 16px rgba(112, 72, 237, 0.12);
+}
+
+/* =========================================
+   MEMBER INFO
+   ========================================= */
+
+.bazar-member-info-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 22px;
+  padding: 20px 22px;
+  border: 1px solid rgba(116, 80, 245, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 14px 36px rgba(84, 61, 151, 0.06);
+  animation: bazarFadeUp 0.55s 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-info-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: #e7faf1;
+  color: #0da46a;
+  font-weight: 900;
+}
+
+.bazar-member-info-card h2 {
+  margin: 0;
+  color: #202943;
+  font-size: 18px;
+}
+
+.bazar-member-info-card p {
+  margin: 5px 0 0;
+  color: #8991aa;
+  font-size: 13px;
+}
+
+/* =========================================
+   MODAL
+   ========================================= */
+
+.bazar-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background: rgba(20, 17, 38, 0.56);
+  backdrop-filter: blur(8px);
+  animation: bazarOverlayIn 0.25s ease both;
+}
+
+.bazar-modal {
+  width: min(590px, 100%);
+  max-height: min(720px, 90vh);
+  overflow-y: auto;
+  padding: 26px;
+  border: 1px solid rgba(121, 89, 235, 0.15);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 30px 80px rgba(18, 13, 40, 0.28);
+  animation: bazarModalIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bazar-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.bazar-modal-header h2 {
+  margin: 0;
+  color: #202943;
+  font-size: 25px;
+  letter-spacing: -0.025em;
+}
+
+.bazar-close-button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 11px;
+  background: #f3f1f8;
+  color: #737b91;
+  font-size: 22px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.bazar-close-button:hover {
+  transform: rotate(5deg);
+  background: #ebe5ff;
+  color: #7048ed;
+}
+
+.bazar-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 19px;
+}
+
+.bazar-form-group > label {
+  color: #59627c;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.bazar-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 13px;
+  border: 1px solid #e1ddec;
+  border-radius: 12px;
+  background: #fbfaff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bazar-input-wrap:focus-within {
+  border-color: #8564f4;
+  box-shadow: 0 0 0 4px rgba(117, 79, 235, 0.09);
+}
+
+.bazar-input-wrap > span {
+  color: #7651ef;
+}
+
+.bazar-input-wrap input {
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #26304b;
+  font: inherit;
+}
+
+.bazar-member-selection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  padding: 10px;
+  border: 1px solid #e4dfef;
+  border-radius: 14px;
+  background: #faf9fd;
+}
+
+.bazar-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: #fff;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bazar-checkbox:hover {
+  transform: translateY(-1px);
+  border-color: #d9ceff;
+}
+
+.bazar-checkbox.selected {
+  border-color: #bba8ff;
+  background: #f2eeff;
+  box-shadow: 0 6px 16px rgba(112, 72, 237, 0.08);
+}
+
+.bazar-checkbox input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom-checkbox {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 23px;
+  height: 23px;
+  border: 1.5px solid #c9c3d7;
+  border-radius: 7px;
+  color: transparent;
+  font-size: 12px;
+  font-weight: 900;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.bazar-checkbox.selected .custom-checkbox {
+  border-color: #7650ef;
+  background: #7650ef;
+  color: #fff;
+}
+
+.member-select-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.member-select-text strong {
+  overflow: hidden;
+  color: #303950;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.member-select-text small {
+  margin-top: 2px;
+  color: #9299aa;
+  font-size: 10px;
+}
+
+.bazar-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 90px;
+  padding: 12px 13px;
+  border: 1px solid #e1ddec;
+  border-radius: 12px;
+  outline: 0;
+  background: #fbfaff;
+  color: #26304b;
+  font: inherit;
+  resize: vertical;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bazar-form-group textarea:focus {
+  border-color: #8564f4;
+  box-shadow: 0 0 0 4px rgba(117, 79, 235, 0.09);
+}
+
+.bazar-modal-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 11px 13px;
+  border: 1px solid #ffd7da;
+  border-radius: 11px;
+  background: #fff2f3;
+  color: #d94450;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bazar-modal-error span {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 7px;
+  background: #ffe0e2;
+  font-weight: 900;
+}
+
+.bazar-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.bazar-cancel-button,
+.bazar-save-button {
+  min-height: 43px;
+  padding: 0 17px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.bazar-cancel-button {
+  border: 1px solid #ded9e8;
+  background: #fff;
+  color: #687189;
+}
+
+.bazar-save-button {
+  border: 0;
+  background: linear-gradient(135deg, #7047ee, #845df5);
+  color: #fff;
+  box-shadow: 0 9px 22px rgba(112, 71, 238, 0.22);
+}
+
+.bazar-cancel-button:hover,
+.bazar-save-button:hover {
+  transform: translateY(-2px);
+}
+
+.bazar-save-button:hover {
+  box-shadow: 0 13px 27px rgba(112, 71, 238, 0.3);
+}
+
+.bazar-cancel-button:disabled,
+.bazar-save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================================
+   LOADING
+   ========================================= */
+
+.bazar-loading-card {
+  display: flex;
+  min-height: 420px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  color: #7d86a0;
+}
+
+.bazar-loading-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #e4ddff;
+  border-top-color: #754ff0;
+  border-radius: 50%;
+  animation: bazarSpin 0.8s linear infinite;
+}
+
+.bazar-loading-card p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================
+   DARK MODE
+   ========================================= */
+
+body.dark .bazar-schedule-heading h1,
+[data-theme="dark"] .bazar-schedule-heading h1 {
+  color: #f3f0ff;
+}
+
+body.dark .bazar-schedule-heading p,
+[data-theme="dark"] .bazar-schedule-heading p {
+  color: #9291a9;
+}
+
+body.dark .bazar-month-button,
+[data-theme="dark"] .bazar-month-button {
+  border-color: #332d49;
+  background: #1b1928;
+  color: #b8b3ca;
+}
+
+body.dark .bazar-month-button:hover,
+[data-theme="dark"] .bazar-month-button:hover {
+  background: #242035;
+  border-color: #6650b8;
+  color: #bca8ff;
+}
+
+body.dark .bazar-calendar-icon,
+[data-theme="dark"] .bazar-calendar-icon {
+  background: #292044;
+  color: #a88eff;
+}
+
+body.dark .bazar-month-center span,
+[data-theme="dark"] .bazar-month-center span {
+  color: #77748a;
+}
+
+body.dark .bazar-month-center h2,
+[data-theme="dark"] .bazar-month-center h2 {
+  color: #eeeaff;
+}
+
+body.dark .bazar-schedule-card,
+[data-theme="dark"] .bazar-schedule-card {
+  border-color: #302a44;
+  background: #1b1928;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.18);
+}
+
+body.dark .bazar-card-header h2,
+[data-theme="dark"] .bazar-card-header h2 {
+  color: #eeeaff;
+}
+
+body.dark .bazar-card-header p,
+[data-theme="dark"] .bazar-card-header p {
+  color: #858197;
+}
+
+body.dark .bazar-card-count,
+[data-theme="dark"] .bazar-card-count {
+  border-color: #352e4c;
+  background: #252036;
+}
+
+body.dark .bazar-table th,
+[data-theme="dark"] .bazar-table th {
+  border-color: #302b40;
+  background: #211e2e;
+  color: #858197;
+}
+
+body.dark .bazar-table td,
+[data-theme="dark"] .bazar-table td {
+  border-color: #302b40;
+  color: #d0ccdc;
+}
+
+body.dark .bazar-table tbody tr:hover,
+[data-theme="dark"] .bazar-table tbody tr:hover {
+  background: #211e30;
+}
+
+body.dark .bazar-row.assigned,
+[data-theme="dark"] .bazar-row.assigned {
+  background: rgba(43, 37, 63, 0.42);
+}
+
+body.dark .bazar-date-number,
+[data-theme="dark"] .bazar-date-number {
+  background: #2b2246;
+  color: #a98fff;
+}
+
+body.dark .bazar-day,
+[data-theme="dark"] .bazar-day {
+  color: #b0abbd;
+}
+
+body.dark .bazar-member-badge,
+[data-theme="dark"] .bazar-member-badge {
+  border-color: #40355f;
+  background: #29213e;
+  color: #c1b2ff;
+}
+
+body.dark .bazar-member-badge:hover,
+[data-theme="dark"] .bazar-member-badge:hover {
+  background: #31264c;
+  border-color: #5d4b86;
+}
+
+body.dark .bazar-not-assigned,
+[data-theme="dark"] .bazar-not-assigned {
+  color: #777486;
+}
+
+body.dark .bazar-edit-button,
+[data-theme="dark"] .bazar-edit-button {
+  border-color: #493d6a;
+  background: #272137;
+  color: #ad97ff;
+}
+
+body.dark .bazar-assign-button,
+[data-theme="dark"] .bazar-assign-button {
+  border-color: #55477b;
+  background: #211e2e;
+  color: #ae99ff;
+}
+
+body.dark .bazar-edit-button:hover,
+body.dark .bazar-assign-button:hover,
+[data-theme="dark"] .bazar-edit-button:hover,
+[data-theme="dark"] .bazar-assign-button:hover {
+  background: #30264a;
+}
+
+body.dark .bazar-member-info-card,
+[data-theme="dark"] .bazar-member-info-card {
+  border-color: #302a44;
+  background: #1b1928;
+}
+
+body.dark .bazar-member-info-card h2,
+[data-theme="dark"] .bazar-member-info-card h2 {
+  color: #eeeaff;
+}
+
+body.dark .bazar-member-info-card p,
+[data-theme="dark"] .bazar-member-info-card p {
+  color: #858197;
+}
+
+body.dark .bazar-toast,
+[data-theme="dark"] .bazar-toast {
+  border-color: #39314e;
+  background: rgba(29, 26, 42, 0.96);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .bazar-toast strong,
+[data-theme="dark"] .bazar-toast strong {
+  color: #f0edfa;
+}
+
+body.dark .bazar-toast span:not(.bazar-toast-icon),
+[data-theme="dark"] .bazar-toast span:not(.bazar-toast-icon) {
+  color: #918da0;
+}
+
+body.dark .bazar-modal,
+[data-theme="dark"] .bazar-modal {
+  border-color: #3a3150;
+  background: #1d1a29;
+}
+
+body.dark .bazar-modal-header h2,
+[data-theme="dark"] .bazar-modal-header h2 {
+  color: #f1edfa;
+}
+
+body.dark .bazar-close-button,
+[data-theme="dark"] .bazar-close-button {
+  background: #2a2538;
+  color: #a39db2;
+}
+
+body.dark .bazar-close-button:hover,
+[data-theme="dark"] .bazar-close-button:hover {
+  background: #352b4d;
+  color: #b69fff;
+}
+
+body.dark .bazar-form-group > label,
+[data-theme="dark"] .bazar-form-group > label {
+  color: #aaa5b7;
+}
+
+body.dark .bazar-input-wrap,
+[data-theme="dark"] .bazar-input-wrap {
+  border-color: #3b344d;
+  background: #211e2e;
+}
+
+body.dark .bazar-input-wrap input,
+[data-theme="dark"] .bazar-input-wrap input,
+body.dark .bazar-form-group textarea,
+[data-theme="dark"] .bazar-form-group textarea {
+  color: #eeeaff;
+}
+
+body.dark .bazar-member-selection,
+[data-theme="dark"] .bazar-member-selection {
+  border-color: #3a334a;
+  background: #211e2e;
+}
+
+body.dark .bazar-checkbox,
+[data-theme="dark"] .bazar-checkbox {
+  border-color: transparent;
+  background: #292536;
+}
+
+body.dark .bazar-checkbox:hover,
+[data-theme="dark"] .bazar-checkbox:hover {
+  border-color: #4c4165;
+}
+
+body.dark .bazar-checkbox.selected,
+[data-theme="dark"] .bazar-checkbox.selected {
+  border-color: #5d4b86;
+  background: #30264a;
+}
+
+body.dark .member-select-text strong,
+[data-theme="dark"] .member-select-text strong {
+  color: #ddd8e8;
+}
+
+body.dark .member-select-text small,
+[data-theme="dark"] .member-select-text small {
+  color: #807b8c;
+}
+
+body.dark .custom-checkbox,
+[data-theme="dark"] .custom-checkbox {
+  border-color: #554e61;
+}
+
+body.dark .bazar-modal-error,
+[data-theme="dark"] .bazar-modal-error {
+  border-color: #53313a;
+  background: #2c2026;
+  color: #f0808b;
+}
+
+body.dark .bazar-cancel-button,
+[data-theme="dark"] .bazar-cancel-button {
+  border-color: #413a4d;
+  background: #24212f;
+  color: #b1adba;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+  .bazar-schedule-container {
+    width: min(100% - 32px, 760px);
+  }
+
+  .bazar-schedule-header {
+    align-items: flex-start;
+  }
+
+  .bazar-schedule-heading h1 {
+    font-size: 42px;
+  }
+
+  .bazar-generate-button {
+    flex-shrink: 0;
+  }
+
+  .bazar-table-wrapper {
+    padding: 0 12px 14px;
+  }
+}
+
+@media (max-width: 700px) {
+  .bazar-schedule-page {
+    padding: 24px 0 45px;
+  }
+
+  .bazar-schedule-container {
+    width: calc(100% - 24px);
+  }
+
+  .bazar-schedule-header {
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .bazar-schedule-heading h1 {
+    font-size: 36px;
+  }
+
+  .bazar-schedule-heading p {
+    font-size: 14px;
+  }
+
+  .bazar-generate-button {
+    width: 100%;
+  }
+
+  .bazar-month-navigation {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .bazar-month-center {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    order: -1;
+    margin-bottom: 4px;
+  }
+
+  .bazar-month-button {
+    width: 100%;
+  }
+
+  .bazar-month-button:last-child {
+    justify-self: stretch;
+  }
+
+  .bazar-card-header {
+    align-items: flex-start;
+    padding: 20px 18px;
+  }
+
+  .bazar-card-header h2 {
+    font-size: 20px;
+  }
+
+  .bazar-card-count {
+    display: none;
+  }
+
+  .bazar-table {
+    min-width: 700px;
+  }
+
+  .bazar-member-info-card {
+    align-items: flex-start;
+  }
+
+  .bazar-modal-overlay {
+    padding: 12px;
+  }
+
+  .bazar-modal {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .bazar-member-selection {
+    grid-template-columns: 1fr;
+  }
+
+  .bazar-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .bazar-cancel-button,
+  .bazar-save-button {
+    width: 100%;
+  }
+
+  .bazar-toast-container {
+    top: 82px;
+    right: 12px;
+    width: calc(100vw - 24px);
+  }
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+
+@keyframes bazarPageIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bazarFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bazarCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.992);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bazarToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(35px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes bazarOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bazarModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bazarSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bazar-schedule-page,
+  .bazar-schedule-header,
+  .bazar-month-navigation,
+  .bazar-schedule-card,
+  .bazar-member-info-card,
+  .bazar-toast,
+  .bazar-modal-overlay,
+  .bazar-modal {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .bazar-generate-button:hover,
+  .bazar-month-button:hover,
+  .bazar-member-badge:hover,
+  .bazar-edit-button:hover,
+  .bazar-assign-button:hover,
+  .bazar-checkbox:hover,
+  .bazar-cancel-button:hover,
+  .bazar-save-button:hover {
+    transform: none !important;
+  }
+}
