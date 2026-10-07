@@ -21,6 +21,25 @@ const chatMessageSchema = new mongoose.Schema(
       trim: true,
       maxlength: 1000,
     },
+
+    // Users who deleted this message only for themselves
+    deletedFor: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+
+    // Deleted for everyone
+    isDeletedForEveryone: {
+      type: Boolean,
+      default: false,
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

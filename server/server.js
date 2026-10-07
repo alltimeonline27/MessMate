@@ -23,11 +23,12 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+app.set("io", io);
 
 io.on("connection", (socket) => {
   console.log("Chat user connected:", socket.id);
 
-  // User joins their mess chat room
+  // Join mess room
   socket.on("join-mess", (messId) => {
     if (!messId) return;
 
@@ -35,12 +36,20 @@ io.on("connection", (socket) => {
 
     socket.join(roomName);
 
-    console.log(`Socket ${socket.id} joined ${roomName}`);
+    console.log(
+      `Socket ${socket.id} joined ${roomName}`
+    );
   });
 
-  // Send live message to everyone in the same mess
+  // New message
   socket.on("send-message", (data) => {
-    const { messId, message } = data;
+    const {
+      messId,
+      message,
+      sender,
+      senderName,
+      messageId,
+    } = data;
 
     if (!messId || !message || !message.trim()) {
       return;
@@ -49,15 +58,45 @@ io.on("connection", (socket) => {
     const roomName = `mess:${messId}`;
 
     socket.to(roomName).emit("receive-message", {
+      _id: messageId,
       message: message.trim(),
-      sender: data.sender,
-      senderName: data.senderName,
+      sender,
+      senderName,
       createdAt: new Date(),
     });
   });
 
+  // Delete message for everyone
+  socket.on(
+    "message-deleted-for-everyone",
+    (data) => {
+      const { messId, messageId } = data;
+
+      if (!messId || !messageId) {
+        return;
+      }
+
+      const roomName = `mess:${messId}`;
+
+      console.log(
+        `Broadcasting deleted message ${messageId} to ${roomName}`
+      );
+
+      socket.to(roomName).emit(
+        "message-deleted-for-everyone",
+        {
+          messageId,
+        }
+      );
+    }
+  );
+
+  // Disconnect
   socket.on("disconnect", () => {
-    console.log("Chat user disconnected:", socket.id);
+    console.log(
+      "Chat user disconnected:",
+      socket.id
+    );
   });
 });
 
