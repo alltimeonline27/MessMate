@@ -36,6 +36,7 @@ import BazarSchedule from "./pages/bazar/BazarSchedule";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import AppLayout from "./components/Layout/AppLayout";
+import Chat from "./pages/chat/Chat";
 
 function App() {
   return (
@@ -202,6 +203,7 @@ function App() {
           />
 
         </Route>
+        <Route path="/chat" element={<Chat />} />
 
       </Routes>
     </BrowserRouter>

@@ -256,14 +256,13 @@ function AppLayout() {
 
                 <div className="sidebar-bottom">
                     <div className="sidebar-tip">
-                        <span className="tip-icon">✦</span>
-
-                        <div>
-                            <strong>MessMate</strong>
-                            <p>
-                                Manage your mess smarter.
-                            </p>
-                        </div>
+                        <button
+                            type="button"
+                            className="chat-sidebar-button"
+                            onClick={() => navigate("/chat")}
+                        >
+                            💬 Chat
+                        </button>
                     </div>
 
                     <button

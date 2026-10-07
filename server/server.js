@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 
+const http = require("http");
+
 const cors = require("cors");
 
 const connectDB = require("./config/db");
@@ -10,6 +12,54 @@ require("./jobs/bazarDutyReminder");
 
 
 const app = express();
+
+const server = http.createServer(app);
+
+const { Server } = require("socket.io");
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("Chat user connected:", socket.id);
+
+  // User joins their mess chat room
+  socket.on("join-mess", (messId) => {
+    if (!messId) return;
+
+    const roomName = `mess:${messId}`;
+
+    socket.join(roomName);
+
+    console.log(`Socket ${socket.id} joined ${roomName}`);
+  });
+
+  // Send live message to everyone in the same mess
+  socket.on("send-message", (data) => {
+    const { messId, message } = data;
+
+    if (!messId || !message || !message.trim()) {
+      return;
+    }
+
+    const roomName = `mess:${messId}`;
+
+    socket.to(roomName).emit("receive-message", {
+      message: message.trim(),
+      sender: data.sender,
+      senderName: data.senderName,
+      createdAt: new Date(),
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Chat user disconnected:", socket.id);
+  });
+});
 
 app.use(cors());
 
@@ -87,12 +137,15 @@ app.use("/api/dashboard", dashboardRoutes);
 const menuRoutes = require("./routes/menuRoutes");
 app.use("/api/menu", menuRoutes);
 
+const chatRoutes = require("./routes/chatRoutes");
+app.use("/api/chat", chatRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send("MessMate Backend is Running 🚀");
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
