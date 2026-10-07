@@ -1411,3 +1411,339 @@
     background: #9b82ff;
     color: #1b1530;
 }
+/* =========================================
+   GLOBAL ROUTE LOADING SCREEN
+========================================= */
+
+.route-loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(118, 87, 217, 0.12),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #f5f2ff 0%,
+      #eeeaff 50%,
+      #e8e3ff 100%
+    );
+
+  animation: routeScreenFade 0.25s ease;
+}
+
+.route-loader-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.route-loader-logo {
+  position: relative;
+
+  width: 66px;
+  height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 19px;
+
+  background: linear-gradient(
+    135deg,
+    #7657d9,
+    #6243c5
+  );
+
+  color: #ffffff;
+
+  font-size: 29px;
+  font-weight: 800;
+
+  box-shadow:
+    0 14px 35px rgba(98, 67, 197, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+
+  animation: routeLogoPulse 2s ease-in-out infinite;
+}
+
+.route-loader-logo > span:first-child {
+  position: relative;
+  z-index: 2;
+}
+
+.route-loader-orbit {
+  position: absolute;
+
+  width: 82px;
+  height: 82px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(118, 87, 217, 0.3);
+
+  animation: routeOrbit 4s linear infinite;
+}
+
+.route-loader-orbit::after {
+  content: "";
+
+  position: absolute;
+
+  width: 6px;
+  height: 6px;
+
+  top: 3px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: #7657d9;
+
+  box-shadow:
+    0 0 10px rgba(118, 87, 217, 0.8);
+}
+
+/* =========================================
+   SPINNER
+========================================= */
+
+.route-loader-spinner {
+  position: relative;
+
+  width: 28px;
+  height: 28px;
+
+  margin-top: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.route-spinner-ring {
+  position: absolute;
+
+  width: 26px;
+  height: 26px;
+
+  border: 2px solid rgba(118, 87, 217, 0.18);
+
+  border-top-color: #7657d9;
+  border-right-color: #6243c5;
+
+  border-radius: 50%;
+
+  animation: routeSpinner 0.85s linear infinite;
+}
+
+.route-spinner-core {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #7657d9;
+
+  box-shadow:
+    0 0 8px rgba(118, 87, 217, 0.6);
+
+  animation: routeCorePulse 1s ease-in-out infinite;
+}
+
+/* =========================================
+   TEXT
+========================================= */
+
+.route-loader-card h2 {
+  margin: 18px 0 4px;
+
+  color: #27233b;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  letter-spacing: -0.2px;
+}
+
+.route-loader-card p {
+  margin: 0;
+
+  color: #77728a;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.route-loading-dots {
+  display: inline-flex;
+
+  width: 18px;
+
+  overflow: hidden;
+}
+
+.route-loading-dots span {
+  opacity: 0.25;
+
+  animation: routeDot 1.2s infinite;
+}
+
+.route-loading-dots span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.route-loading-dots span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes routeScreenFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes routeLogoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes routeOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes routeSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes routeCorePulse {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.65;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes routeDot {
+  0%,
+  70%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+
+  35% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+[data-theme="dark"] .route-loading-screen {
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(118, 87, 217, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #10101a 0%,
+      #151423 50%,
+      #19162a 100%
+    );
+}
+
+[data-theme="dark"] .route-loader-card h2 {
+  color: #f5f3ff;
+}
+
+[data-theme="dark"] .route-loader-card p {
+  color: #aaa5bd;
+}
+
+[data-theme="dark"] .route-loader-orbit {
+  border-color: rgba(164, 140, 240, 0.28);
+}
+
+[data-theme="dark"] .route-loader-orbit::after {
+  background: #a48cf0;
+
+  box-shadow:
+    0 0 10px rgba(164, 140, 240, 0.8);
+}
+
+[data-theme="dark"] .route-spinner-ring {
+  border-color: rgba(164, 140, 240, 0.18);
+
+  border-top-color: #a48cf0;
+  border-right-color: #7657d9;
+}
+
+[data-theme="dark"] .route-spinner-core {
+  background: #a48cf0;
+
+  box-shadow:
+    0 0 9px rgba(164, 140, 240, 0.7);
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .route-loader-logo,
+  .route-loader-orbit,
+  .route-spinner-ring,
+  .route-spinner-core,
+  .route-loading-dots span {
+    animation: none;
+  }
+}

@@ -316,3 +316,356 @@
     font-size: 24px;
   }
 }
+
+/* =========================================
+   PREMIUM LOGIN LOADING ANIMATION
+========================================= */
+
+.login-button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Moving shine across button */
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.login-button:hover::before {
+  left: 140%;
+  transition: left 0.7s ease;
+}
+
+/* Loading button */
+
+.login-button-loading {
+  cursor: wait !important;
+  background: linear-gradient(
+    135deg,
+    #6243c5,
+    #7657d9,
+    #6243c5
+  );
+  background-size: 200% 200%;
+  animation: loginButtonFlow 2s ease infinite;
+  box-shadow:
+    0 8px 25px rgba(98, 67, 197, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+.login-button-loading:hover {
+  transform: none;
+  box-shadow:
+    0 8px 25px rgba(98, 67, 197, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Loading content */
+
+.login-loading-content {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+
+  height: 100%;
+}
+
+/* =========================================
+   ORBITAL LOADER
+========================================= */
+
+.login-loader {
+  position: relative;
+
+  width: 20px;
+  height: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Outer rotating orbit */
+
+.loader-orbit {
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-right-color: rgba(255, 255, 255, 0.8);
+
+  border-radius: 50%;
+
+  animation:
+    loginOrbitSpin 0.8s linear infinite,
+    loginOrbitPulse 1.4s ease-in-out infinite;
+}
+
+/* Small glowing center */
+
+.loader-core {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 12px rgba(255, 255, 255, 0.55);
+
+  animation: loginCorePulse 1s ease-in-out infinite;
+}
+
+/* =========================================
+   SIGNING IN TEXT
+========================================= */
+
+.login-loading-text {
+  min-width: 84px;
+
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+
+.loading-dots {
+  display: inline-flex;
+  width: 18px;
+  overflow: hidden;
+  margin-left: 1px;
+}
+
+.loading-dots span {
+  opacity: 0.25;
+  animation: loadingDot 1.2s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+/* =========================================
+   NORMAL LOGIN BUTTON
+========================================= */
+
+.login-normal-content {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-arrow {
+  display: inline-block;
+
+  font-size: 17px;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.login-button:hover .login-arrow {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   LOGO ORBIT
+========================================= */
+
+.login-logo {
+  position: relative;
+  overflow: visible;
+}
+
+.login-logo > span:first-child {
+  position: relative;
+  z-index: 2;
+}
+
+.login-logo-orbit {
+  position: absolute;
+
+  width: 70px;
+  height: 70px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(118, 87, 217, 0.22);
+
+  animation: logoOrbit 5s linear infinite;
+}
+
+.login-logo-orbit::after {
+  content: "";
+
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  top: 3px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: #7657d9;
+
+  box-shadow:
+    0 0 8px rgba(118, 87, 217, 0.7);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes loginOrbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loginOrbitPulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes loginCorePulse {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes loadingDot {
+  0%,
+  70%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+
+  35% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes loginButtonFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes logoOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   DARK MODE LOADING
+========================================= */
+
+[data-theme="dark"] .login-button-loading {
+  background: linear-gradient(
+    135deg,
+    #5740aa,
+    #7657d9,
+    #5740aa
+  );
+
+  background-size: 200% 200%;
+
+  box-shadow:
+    0 8px 28px rgba(91, 67, 180, 0.35),
+    0 0 0 1px rgba(164, 140, 240, 0.12) inset;
+}
+
+[data-theme="dark"] .login-logo-orbit {
+  border-color: rgba(164, 140, 240, 0.24);
+}
+
+[data-theme="dark"] .login-logo-orbit::after {
+  background: #a48cf0;
+
+  box-shadow:
+    0 0 9px rgba(164, 140, 240, 0.8);
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-logo-orbit,
+  .loader-orbit,
+  .loader-core,
+  .loading-dots span,
+  .login-button-loading {
+    animation: none;
+  }
+
+  .login-button::before {
+    display: none;
+  }
+}
