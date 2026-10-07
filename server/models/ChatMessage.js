@@ -22,7 +22,12 @@ const chatMessageSchema = new mongoose.Schema(
       maxlength: 1000,
     },
 
-    // Users who deleted this message only for themselves
+    replyTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ChatMessage",
+      default: null,
+    },
+
     deletedFor: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +35,6 @@ const chatMessageSchema = new mongoose.Schema(
       },
     ],
 
-    // Deleted for everyone
     isDeletedForEveryone: {
       type: Boolean,
       default: false,

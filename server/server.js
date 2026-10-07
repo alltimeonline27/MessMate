@@ -25,12 +25,74 @@ const io = new Server(server, {
 });
 app.set("io", io);
 
+// ======================================================
+// SOCKET.IO CHAT
+// ======================================================
+
+
+
+
+
+
+// Make Socket.IO available to Express routes if needed
+app.set("io", io);
+
+const emitPresence = async (messId) => {
+  if (!messId) return;
+
+  const roomName = `mess:${messId}`;
+  const sockets = await io.in(roomName).fetchSockets();
+
+  const users = [];
+  const seen = new Set();
+
+  for (const socket of sockets) {
+    const userId = socket.data.userId;
+
+    if (!userId || seen.has(userId.toString())) {
+      continue;
+    }
+
+    seen.add(userId.toString());
+
+    users.push({
+      userId: userId.toString(),
+      name: socket.data.userName || "Mess Member",
+    });
+  }
+
+  io.to(roomName).emit("presence-update", {
+    users,
+  });
+};
+
 io.on("connection", (socket) => {
   console.log("Chat user connected:", socket.id);
 
-  // Join mess room
-  socket.on("join-mess", (messId) => {
+  // ====================================================
+  // JOIN MESS
+  // ====================================================
+  socket.on("join-mess", async (payload) => {
+    const messId =
+      typeof payload === "string"
+        ? payload
+        : payload?.messId;
+
+    const userId =
+      typeof payload === "object"
+        ? payload?.userId
+        : null;
+
+    const userName =
+      typeof payload === "object"
+        ? payload?.userName
+        : null;
+
     if (!messId) return;
+
+    socket.data.messId = messId;
+    socket.data.userId = userId;
+    socket.data.userName = userName;
 
     const roomName = `mess:${messId}`;
 
@@ -39,48 +101,59 @@ io.on("connection", (socket) => {
     console.log(
       `Socket ${socket.id} joined ${roomName}`
     );
+
+    await emitPresence(messId);
   });
 
-  // New message
+  // ====================================================
+  // SEND MESSAGE
+  // ====================================================
   socket.on("send-message", (data) => {
-    const {
-      messId,
-      message,
-      sender,
-      senderName,
-      messageId,
-    } = data;
+    const { messId, messageData } = data || {};
 
-    if (!messId || !message || !message.trim()) {
-      return;
-    }
+    if (!messId || !messageData) return;
 
     const roomName = `mess:${messId}`;
 
-    socket.to(roomName).emit("receive-message", {
-      _id: messageId,
-      message: message.trim(),
-      sender,
-      senderName,
-      createdAt: new Date(),
+    socket.to(roomName).emit(
+      "receive-message",
+      messageData
+    );
+  });
+
+  // ====================================================
+  // TYPING
+  // ====================================================
+  socket.on("typing", (data) => {
+    const {
+      messId,
+      userId,
+      userName,
+      isTyping,
+    } = data || {};
+
+    if (!messId || !userId) return;
+
+    const roomName = `mess:${messId}`;
+
+    socket.to(roomName).emit("user-typing", {
+      userId,
+      userName: userName || "Mess Member",
+      isTyping: Boolean(isTyping),
     });
   });
 
-  // Delete message for everyone
+  // ====================================================
+  // DELETE FOR EVERYONE
+  // ====================================================
   socket.on(
     "message-deleted-for-everyone",
     (data) => {
-      const { messId, messageId } = data;
+      const { messId, messageId } = data || {};
 
-      if (!messId || !messageId) {
-        return;
-      }
+      if (!messId || !messageId) return;
 
       const roomName = `mess:${messId}`;
-
-      console.log(
-        `Broadcasting deleted message ${messageId} to ${roomName}`
-      );
 
       socket.to(roomName).emit(
         "message-deleted-for-everyone",
@@ -91,14 +164,23 @@ io.on("connection", (socket) => {
     }
   );
 
-  // Disconnect
-  socket.on("disconnect", () => {
+  // ====================================================
+  // DISCONNECT
+  // ====================================================
+  socket.on("disconnect", async () => {
     console.log(
       "Chat user disconnected:",
       socket.id
     );
+
+    if (socket.data.messId) {
+      await emitPresence(socket.data.messId);
+    }
   });
 });
+
+// Keep your existing:
+// server.listen(PORT, ...)
 
 app.use(cors());
 

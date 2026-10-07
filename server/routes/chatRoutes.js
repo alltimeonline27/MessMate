@@ -4,6 +4,18 @@ const router = express.Router();
 const ChatMessage = require("../models/ChatMessage");
 const { protect } = require("../middleware/authMiddleware");
 
+const populateChatMessage = (query) =>
+  query
+    .populate("sender", "name email role")
+    .populate({
+      path: "replyTo",
+      select: "message sender createdAt isDeletedForEveryone",
+      populate: {
+        path: "sender",
+        select: "name",
+      },
+    });
+
 // ======================================================
 // GET CHAT MESSAGES
 // ======================================================
@@ -16,15 +28,14 @@ router.get("/", protect, async (req, res) => {
       });
     }
 
-    const currentUserId = req.user._id;
-
-    const messages = await ChatMessage.find({
-      messId: req.user.messId._id,
-      deletedFor: { $ne: currentUserId },
-    })
-      .populate("sender", "name email role")
-      .sort({ createdAt: 1 })
-      .limit(100);
+    const messages = await populateChatMessage(
+      ChatMessage.find({
+        messId: req.user.messId._id,
+        deletedFor: { $ne: req.user._id },
+      })
+        .sort({ createdAt: 1 })
+        .limit(100)
+    );
 
     res.json({
       success: true,
@@ -52,7 +63,7 @@ router.post("/", protect, async (req, res) => {
       });
     }
 
-    const { message } = req.body;
+    const { message, replyTo } = req.body;
 
     if (!message || !message.trim()) {
       return res.status(400).json({
@@ -61,15 +72,31 @@ router.post("/", protect, async (req, res) => {
       });
     }
 
+    let replyMessage = null;
+
+    if (replyTo) {
+      replyMessage = await ChatMessage.findOne({
+        _id: replyTo,
+        messId: req.user.messId._id,
+      });
+
+      if (!replyMessage) {
+        return res.status(400).json({
+          success: false,
+          message: "Reply message not found",
+        });
+      }
+    }
+
     const newMessage = await ChatMessage.create({
       messId: req.user.messId._id,
       sender: req.user._id,
       message: message.trim(),
+      replyTo: replyMessage?._id || null,
     });
 
-    const populatedMessage = await newMessage.populate(
-      "sender",
-      "name email role"
+    const populatedMessage = await populateChatMessage(
+      ChatMessage.findById(newMessage._id)
     );
 
     res.status(201).json({
@@ -86,10 +113,9 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
-
-
 // ======================================================
-// CLEAR ALL CHAT FOR ME
+// CLEAR CHAT FOR ME
+// IMPORTANT: keep this BEFORE /:id routes
 // ======================================================
 router.delete("/clear/for-me", protect, async (req, res) => {
   try {
@@ -127,7 +153,7 @@ router.delete("/clear/for-me", protect, async (req, res) => {
 });
 
 // ======================================================
-// DELETE MESSAGE FOR ME
+// DELETE FOR ME
 // ======================================================
 router.delete("/:id/for-me", protect, async (req, res) => {
   try {
@@ -150,14 +176,14 @@ router.delete("/:id/for-me", protect, async (req, res) => {
       });
     }
 
-    const alreadyDeleted = message.deletedFor.some(
-      (userId) => userId.toString() === req.user._id.toString()
+    await ChatMessage.updateOne(
+      { _id: message._id },
+      {
+        $addToSet: {
+          deletedFor: req.user._id,
+        },
+      }
     );
-
-    if (!alreadyDeleted) {
-      message.deletedFor.push(req.user._id);
-      await message.save();
-    }
 
     res.json({
       success: true,
@@ -174,8 +200,7 @@ router.delete("/:id/for-me", protect, async (req, res) => {
 });
 
 // ======================================================
-// DELETE MESSAGE FOR EVERYONE
-// Only the sender can do this
+// DELETE FOR EVERYONE
 // ======================================================
 router.delete("/:id/for-everyone", protect, async (req, res) => {
   try {
@@ -198,7 +223,6 @@ router.delete("/:id/for-everyone", protect, async (req, res) => {
       });
     }
 
-    // Only message sender can delete for everyone
     if (message.sender.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
@@ -219,15 +243,9 @@ router.delete("/:id/for-everyone", protect, async (req, res) => {
 
     await message.save();
 
-    const updatedMessage = await message.populate(
-      "sender",
-      "name email role"
-    );
-
     res.json({
       success: true,
       message: "Message deleted for everyone",
-      updatedMessage,
     });
   } catch (error) {
     console.error("Delete message for everyone error:", error);
@@ -238,6 +256,5 @@ router.delete("/:id/for-everyone", protect, async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;

@@ -1374,3 +1374,40 @@
   background: rgba(118, 82, 200, 0.14);
   border-color: rgba(118, 82, 200, 0.35);
 }
+
+/* =========================================================
+   CHAT UNREAD BADGE
+========================================================= */
+
+.chat-sidebar-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.chat-unread-badge {
+    min-width: 21px;
+    height: 21px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 6px;
+
+    border-radius: 999px;
+
+    background: #7654e8;
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    box-shadow: 0 4px 10px rgba(118, 84, 232, 0.25);
+}
+
+[data-theme="dark"] .chat-unread-badge {
+    background: #9b82ff;
+    color: #1b1530;
+}
